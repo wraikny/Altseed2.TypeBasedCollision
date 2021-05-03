@@ -1,0 +1,2 @@
+# Altseed2.TypeBasedCollision
+
