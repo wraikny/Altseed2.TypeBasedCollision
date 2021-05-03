@@ -4,6 +4,7 @@ using Altseed2;
 
 namespace Altseed2.TypeBasedCollision
 {
+    // CollisionNode のキーとして使うためには ICollisionMarker を実装する必要がある
     class Node1 : CircleNode, ICollisionMarker
     {
         private string Label { get; set;}
@@ -19,6 +20,8 @@ namespace Altseed2.TypeBasedCollision
                 Radius = Radius,
             };
 
+            // キーとなる型を指定する
+            // ここではNode1を指定して、その値として this を渡している
             _collisionNode = new CollisionNode<Node1>(this, collider);
             AddChildNode(_collisionNode);
         }
@@ -27,6 +30,8 @@ namespace Altseed2.TypeBasedCollision
         {
             base.OnUpdate();
 
+            // 衝突対象のキーをジェネリックで指定する（自身とは衝突しない）
+            // 衝突した際に実行する処理を Action として渡す
             _collisionNode.CheckCollision<Node1>((c) => {
                 var target = c.Value;
                 Console.WriteLine(
