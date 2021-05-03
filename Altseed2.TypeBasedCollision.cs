@@ -19,7 +19,7 @@ namespace Altseed2.TypeBasedCollision
         private static class CollisionStorage<U>
             where U : ICollisionMarker
         {
-            public static readonly HashSet<CollisionNode<U>> Collisions = new HashSet<CollisionNode<U>>();
+            public static HashSet<CollisionNode<U>> Collisions;
         }
 
         private bool AppliedTransform { get; set; }
@@ -36,9 +36,9 @@ namespace Altseed2.TypeBasedCollision
             AppliedTransform = false;
         }
 
-        public override void CheckCollision<U>(Action<CollisionNode<U>> onCollided)
+        public override void CheckCollision<TargetKey>(Action<CollisionNode<TargetKey>> onCollided)
         {
-            if (onCollided is null || Collider is null) return;
+            if (onCollided is null || Collider is null || CollisionStorage<TargetKey>.Collisions is null) return;
 
             if (!AppliedTransform)
             {
@@ -46,7 +46,7 @@ namespace Altseed2.TypeBasedCollision
                 AppliedTransform = true;
             }
 
-            foreach (var cn in CollisionStorage<U>.Collisions)
+            foreach (var cn in CollisionStorage<TargetKey>.Collisions)
             {
                 if (!this.Equals(cn) && cn.IsUpdatedActually && cn.Collider is { })
                 {
@@ -55,7 +55,7 @@ namespace Altseed2.TypeBasedCollision
                         cn.Collider.Transform = cn.AbsoluteTransform;
                         cn.AppliedTransform = true;
                     }
-                    
+
                     if (cn.Collider.GetIsCollidedWith(Collider))
                     {
                         onCollided(cn);
@@ -66,6 +66,7 @@ namespace Altseed2.TypeBasedCollision
 
         protected override void OnAdded()
         {
+            CollisionStorage<T>.Collisions ??= new HashSet<CollisionNode<T>>();
             CollisionStorage<T>.Collisions.Add(this);
         }
 
