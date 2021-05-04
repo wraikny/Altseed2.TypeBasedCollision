@@ -1,3 +1,5 @@
+[![](https://github.com/wraikny/Altseed2.TypeBasedCollision/workflows/CI/badge.svg)](https://github.com/wraikny/Altseed2.TypeBasedCollision/actions?workflow=CI)
+
 # Altseed2.TypeBasedCollision
 
 Copy [Altseed2.TypeBasedCollision.cs](src/Altseed2.TypeBasedCollision/Altseed2.TypeBasedCollision.cs) and paste into your project directory.
