@@ -2,6 +2,9 @@
 
 # Altseed2.TypeBasedCollision
 
+Altsees2.TypeBasedCollision は、型をキーとして衝突対象の管理を平易かつ高速に行うためのライブラリです。
+
+## Install
 Copy [Altseed2.TypeBasedCollision.cs](src/Altseed2.TypeBasedCollision/Altseed2.TypeBasedCollision.cs) and paste it into your project directory.
 
 ## Examples
