@@ -2,7 +2,7 @@
 
 # Altseed2.TypeBasedCollision
 
-Copy [Altseed2.TypeBasedCollision.cs](src/Altseed2.TypeBasedCollision/Altseed2.TypeBasedCollision.cs) and paste into your project directory.
+Copy [Altseed2.TypeBasedCollision.cs](src/Altseed2.TypeBasedCollision/Altseed2.TypeBasedCollision.cs) and paste it into your project directory.
 
 ## Examples
 See the [example](./example/Altseed2.TypeBasedCollision.Example).
