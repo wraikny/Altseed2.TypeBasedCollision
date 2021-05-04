@@ -5,10 +5,11 @@
 Altsees2.TypeBasedCollision は、型をキーとして衝突対象の管理を平易かつ高速に行うためのライブラリです。
 
 ## Install
-Copy [Altseed2.TypeBasedCollision.cs](src/Altseed2.TypeBasedCollision/Altseed2.TypeBasedCollision.cs) and paste it into your project directory.
+[Altseed2.TypeBasedCollision.cs](src/Altseed2.TypeBasedCollision/Altseed2.TypeBasedCollision.cs)
+をプロジェクト内にコピーするだけで利用可能です。
 
 ## Examples
-See the [example](./example/Altseed2.TypeBasedCollision.Example).
+[example](./example/Altseed2.TypeBasedCollision.Example) を見てください。
 
 ## Setup
 ```sh
@@ -21,7 +22,7 @@ $ dotnet tool restore
 $ dotnet fake build [-- <DEBUG|RELEASE>]
 ```
 
-Default configuration is DEBUG
+デフォルトは `DEBUG`
 
 ## Format
 
