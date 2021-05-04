@@ -52,7 +52,8 @@ namespace Altseed2.TypeBasedCollision
             this.key = key;
 
             // 円形コライダーを作成
-            var collider = new CircleCollider {
+            var collider = new CircleCollider
+            {
                 Radius = Radius,
             };
 
@@ -73,7 +74,8 @@ namespace Altseed2.TypeBasedCollision
             */
 
             // Key1 の CollisionNode との衝突判定を行う
-            _collisionNode.CheckCollision<Key1>((k) => {
+            _collisionNode.CheckCollision<Key1>((k) =>
+            {
                 Console.WriteLine($"{key.Label}: Hit with Key1({k.Label})");
             });
         }

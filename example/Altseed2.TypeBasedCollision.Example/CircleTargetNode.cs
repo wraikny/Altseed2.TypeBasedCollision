@@ -17,7 +17,7 @@ namespace Altseed2.TypeBasedCollision.Example
             Radius = 50.0f;
             VertNum = 32;
 
-            var collider = new CircleCollider{ Radius = Radius };
+            var collider = new CircleCollider { Radius = Radius };
 
             var collisionNode = new CollisionNode<CircleTargetNode>(this, collider);
             AddChildNode(collisionNode);

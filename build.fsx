@@ -59,9 +59,9 @@ Target.create "Format.Check" (fun _ ->
 Target.create "Clean" (fun _ ->
   !! "src/**/bin"
   ++ "src/**/obj"
-  !! "tests/**/bin"
+  ++ "tests/**/bin"
   ++ "tests/**/obj"
-  !! "example/**/bin"
+  ++ "example/**/bin"
   ++ "example/**/obj"
   |> Shell.cleanDirs
 )

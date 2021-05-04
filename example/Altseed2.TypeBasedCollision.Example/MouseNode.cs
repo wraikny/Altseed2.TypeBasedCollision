@@ -40,11 +40,13 @@ namespace Altseed2.TypeBasedCollision.Example
                 衝突した際に実行する処理を Action として渡す
             */
 
-            _collisionNode.CheckCollision<CircleTargetNode>((target) => {
+            _collisionNode.CheckCollision<CircleTargetNode>((target) =>
+            {
                 Console.WriteLine($"[{count}] MouseNode hits CircleTargetNode({target.Label})");
             });
 
-            _collisionNode.CheckCollision<RectangleTargetNode>((target) => {
+            _collisionNode.CheckCollision<RectangleTargetNode>((target) =>
+            {
                 Console.WriteLine($"[{count}] MouseNode hits RectangleTargetNode({target.Label})");
             });
 
