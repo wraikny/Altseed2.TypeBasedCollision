@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 ---Altseed2.TypeBasedCollision---
 
@@ -35,36 +35,40 @@ namespace Altseed2.TypeBasedCollision
 
     public abstract class CollisionNodeBase : TransformNode
     {
-        public abstract void CheckCollision<U>(Action<CollisionNode<U>> onCollided)
+        public abstract void CheckCollision<U>(Action<U> onCollided)
             where U : ICollisionMarker;
+
+    }
+
+    public static class CollisionStorage<U>
+        where U : ICollisionMarker
+    {
+        internal static readonly HashSet<CollisionNode<U>> CollisionsHashSet = new HashSet<CollisionNode<U>>();
+
+        public static IReadOnlyCollection<CollisionNode<U>> Collisions => CollisionsHashSet;
     }
 
     public sealed class CollisionNode<T> : CollisionNodeBase
         where T : ICollisionMarker
     {
-        private static class CollisionStorage<U>
-            where U : ICollisionMarker
-        {
-            public static HashSet<CollisionNode<U>> Collisions;
-        }
 
         private bool AppliedTransform { get; set; }
 
-        public T Value { get; private set; }
+        public T Key { get; private set; }
 
         private Collider Collider { get; set; }
 
-        public CollisionNode(T v, Collider collider)
+        public CollisionNode(T key, Collider collider)
         {
-            Value = v;
+            Key = key;
             Collider = collider;
 
             AppliedTransform = false;
         }
 
-        public override void CheckCollision<TargetKey>(Action<CollisionNode<TargetKey>> onCollided)
+        public override void CheckCollision<TargetKey>(Action<TargetKey> onCollided)
         {
-            if (onCollided is null || Collider is null || CollisionStorage<TargetKey>.Collisions is null) return;
+            if (onCollided is null || Collider is null) return;
 
             if (!AppliedTransform)
             {
@@ -72,9 +76,9 @@ namespace Altseed2.TypeBasedCollision
                 AppliedTransform = true;
             }
 
-            foreach (var cn in CollisionStorage<TargetKey>.Collisions)
+            foreach (var cn in CollisionStorage<TargetKey>.CollisionsHashSet)
             {
-                if (!this.Equals(cn) && cn.IsUpdatedActually && cn.Collider is { })
+                if (!Equals(cn) && cn.IsUpdatedActually && cn.Collider is { })
                 {
                     if (!cn.AppliedTransform)
                     {
@@ -84,7 +88,7 @@ namespace Altseed2.TypeBasedCollision
 
                     if (cn.Collider.GetIsCollidedWith(Collider))
                     {
-                        onCollided(cn);
+                        onCollided(cn.Key);
                     }
                 }
             }
@@ -92,8 +96,7 @@ namespace Altseed2.TypeBasedCollision
 
         protected override void OnAdded()
         {
-            CollisionStorage<T>.Collisions ??= new HashSet<CollisionNode<T>>();
-            CollisionStorage<T>.Collisions.Add(this);
+            CollisionStorage<T>.CollisionsHashSet.Add(this);
         }
 
         protected override void OnUpdate()
@@ -105,18 +108,7 @@ namespace Altseed2.TypeBasedCollision
         {
             base.OnRemoved();
 
-            CollisionStorage<T>.Collisions.Remove(this);
-        }
-
-        private bool FindAncestorStatus(RegisteredStatus status)
-        {
-            Node current = this;
-            while (current != null)
-            {
-                if (current.Status == status) return true;
-                current = current.Parent;
-            }
-            return false;
+            CollisionStorage<T>.CollisionsHashSet.Remove(this);
         }
     }
 }

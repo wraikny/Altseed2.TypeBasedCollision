@@ -4,7 +4,7 @@
 using Altseed2;
 using Altseed2.TypeBasedCollision;
 
-#ifdef NET5_0
+#if NET5_0
 
 // CollisionNode のキーとして使うためには ICollisionMarker インターフェースを実装する
 record Key1(string Label) : ICollisionMarker;
@@ -17,7 +17,7 @@ record Key2(string Label) : ICollisionMarker;
 #endif
 
 class MyNode<Key> : CircleNode
-    where Key : ICollisionMarker
+    where Key : ICollisionMarker, IHasLabel
 {
     CollisionNodeBase _collisionNode;
 
