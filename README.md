@@ -1,7 +1,9 @@
 # Altseed2.TypeBasedCollision
 
+Copy [Altseed2.TypeBasedCollision.cs](src/Altseed2.TypeBasedCollision/Altseed2.TypeBasedCollision.cs) and paste into your project directory.
+
 ## Examples
-see [example](./example/Altseed2.TypeBasedCollision.Example)
+See the [example](./example/Altseed2.TypeBasedCollision.Example).
 
 ## Setup
 ```sh
