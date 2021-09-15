@@ -34,3 +34,11 @@ $ dotnet fake build [-- <DEBUG|RELEASE>]
 ```sh
 $ dotnet fake build -t format
 ```
+
+## Release to nuget
+
+```sh
+$ dotnet pack src/Altseed2.TypeBasedCollision -o . -c Release
+```
+
+Then, drug & drop `Altseed2.TypeBasedCollision.*.nupkg` to the Nuget website.
