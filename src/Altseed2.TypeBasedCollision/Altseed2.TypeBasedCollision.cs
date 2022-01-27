@@ -28,7 +28,6 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Altseed2.TypeBasedCollision
 {
@@ -36,9 +35,9 @@ namespace Altseed2.TypeBasedCollision
 
     public abstract class CollisionNodeBase : TransformNode
     {
-        internal protected bool AppliedTransform { get; private set; }
-        internal protected Matrix44F ColliderTransform { get; private set; }
-        internal protected Collider Collider { get; private set; }
+        protected internal bool AppliedTransform { get; private set; }
+        protected internal Matrix44F ColliderTransform { get; private set; }
+        protected internal Collider Collider { get; private set; }
 
         public CollisionNodeBase(Collider collider)
         {
@@ -52,7 +51,7 @@ namespace Altseed2.TypeBasedCollision
             AppliedTransform = false;
         }
 
-        internal protected void ApplyTransform()
+        protected internal void ApplyTransform()
         {
             if (!AppliedTransform)
             {
@@ -112,7 +111,7 @@ namespace Altseed2.TypeBasedCollision
         public T Key { get; private set; }
 
         public CollisionNode(T key, Collider collider)
-            :base(collider)
+            : base(collider)
         {
             Key = key;
         }
@@ -127,7 +126,7 @@ namespace Altseed2.TypeBasedCollision
                 {
                     cn.ApplyTransform();
 
-                    yield return(cn.Key, cn.Collider.GetIsCollidedWith(Collider));
+                    yield return (cn.Key, cn.Collider.GetIsCollidedWith(Collider));
                 }
             }
         }

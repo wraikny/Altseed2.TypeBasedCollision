@@ -52,7 +52,7 @@ Target.create "Format.Check" (fun _ ->
   ++ "tests/**/*.csproj"
   ++ "example/**/*.csproj"
   |> Seq.iter (fun proj ->
-    dotnet "format" $"{proj} --check -v diag"
+    dotnet "format" $"{proj} --verify-no-changes -v diag"
   )
 )
 

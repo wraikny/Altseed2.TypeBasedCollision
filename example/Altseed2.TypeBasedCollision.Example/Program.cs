@@ -1,8 +1,5 @@
 ﻿using System;
 
-using Altseed2;
-using Altseed2.TypeBasedCollision;
-
 namespace Altseed2.TypeBasedCollision.Example
 {
     internal class Program
