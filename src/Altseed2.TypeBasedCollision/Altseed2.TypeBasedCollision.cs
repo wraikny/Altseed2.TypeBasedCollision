@@ -28,6 +28,7 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Altseed2.TypeBasedCollision
 {
@@ -35,9 +36,66 @@ namespace Altseed2.TypeBasedCollision
 
     public abstract class CollisionNodeBase : TransformNode
     {
-        public abstract void CheckCollision<U>(Action<U> onCollided)
-            where U : ICollisionMarker;
+        internal protected bool AppliedTransform { get; private set; }
+        internal protected Matrix44F ColliderTransform { get; private set; }
+        internal protected Collider Collider { get; private set; }
 
+        public CollisionNodeBase(Collider collider)
+        {
+            if (collider is null)
+            {
+                throw new ArgumentNullException(nameof(collider));
+            }
+
+            Collider = collider;
+            ColliderTransform = collider.Transform;
+            AppliedTransform = false;
+        }
+
+        internal protected void ApplyTransform()
+        {
+            if (!AppliedTransform)
+            {
+                Collider.Transform = ColliderTransform * AbsoluteTransform;
+                AppliedTransform = true;
+            }
+        }
+
+        public abstract IEnumerable<(TargetKey key, bool isCollided)> EnumerateCollisions<TargetKey>()
+            where TargetKey : ICollisionMarker;
+
+        public void CheckCollision<TargetKey>(Action<TargetKey> actionWhenCollided)
+            where TargetKey : ICollisionMarker
+        {
+            if (actionWhenCollided is null)
+            {
+                throw new ArgumentNullException(nameof(actionWhenCollided));
+            }
+
+            foreach (var (key, isCollided) in EnumerateCollisions<TargetKey>())
+            {
+                if (isCollided) actionWhenCollided(key);
+            }
+        }
+
+        public void CheckCollision<TargetKey>(Action<TargetKey, bool> action)
+            where TargetKey : ICollisionMarker
+        {
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            foreach (var (key, isCollided) in EnumerateCollisions<TargetKey>())
+            {
+                action(key, isCollided);
+            }
+        }
+
+        protected override void OnUpdate()
+        {
+            AppliedTransform = false;
+        }
     }
 
     public static class CollisionStorage<U>
@@ -51,45 +109,25 @@ namespace Altseed2.TypeBasedCollision
     public sealed class CollisionNode<T> : CollisionNodeBase
         where T : ICollisionMarker
     {
-
-        private bool AppliedTransform { get; set; }
-
         public T Key { get; private set; }
 
-        private Collider Collider { get; set; }
-
         public CollisionNode(T key, Collider collider)
+            :base(collider)
         {
             Key = key;
-            Collider = collider;
-
-            AppliedTransform = false;
         }
 
-        public override void CheckCollision<TargetKey>(Action<TargetKey> onCollided)
+        public override IEnumerable<(TargetKey key, bool isCollided)> EnumerateCollisions<TargetKey>()
         {
-            if (onCollided is null || Collider is null) return;
-
-            if (!AppliedTransform)
-            {
-                Collider.Transform = AbsoluteTransform;
-                AppliedTransform = true;
-            }
+            ApplyTransform();
 
             foreach (var cn in CollisionStorage<TargetKey>.CollisionsHashSet)
             {
                 if (!Equals(cn) && cn.IsUpdatedActually && cn.Collider is { })
                 {
-                    if (!cn.AppliedTransform)
-                    {
-                        cn.Collider.Transform = cn.AbsoluteTransform;
-                        cn.AppliedTransform = true;
-                    }
+                    cn.ApplyTransform();
 
-                    if (cn.Collider.GetIsCollidedWith(Collider))
-                    {
-                        onCollided(cn.Key);
-                    }
+                    yield return(cn.Key, cn.Collider.GetIsCollidedWith(Collider));
                 }
             }
         }
@@ -97,11 +135,6 @@ namespace Altseed2.TypeBasedCollision
         protected override void OnAdded()
         {
             CollisionStorage<T>.CollisionsHashSet.Add(this);
-        }
-
-        protected override void OnUpdate()
-        {
-            AppliedTransform = false;
         }
 
         protected override void OnRemoved()

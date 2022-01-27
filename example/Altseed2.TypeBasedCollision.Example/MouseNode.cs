@@ -6,20 +6,26 @@ using System.Threading.Tasks;
 
 namespace Altseed2.TypeBasedCollision.Example
 {
-    internal class MouseNode : CircleNode, ICollisionMarker
+    internal class MouseNode : TransformNode, ICollisionMarker
     {
-        private int count = 0;
+        private int _count = 0;
         private readonly CollisionNode<MouseNode> _collisionNode;
 
         public MouseNode()
         {
-            Radius = 10.0f;
-            VertNum = 32;
+            var circleNode = new CircleNode
+            {
+                Radius = 10.0f,
+                VertNum = 32,
+                Position = new Vector2F(100f, 100f),
+            };
+            AddChildNode(circleNode);
 
             // 円形コライダーを作成
             var collider = new CircleCollider
             {
-                Radius = Radius,
+                Radius = circleNode.Radius,
+                Position = circleNode.Position,
             };
 
             // CollisionNodeを作成する。
@@ -42,15 +48,15 @@ namespace Altseed2.TypeBasedCollision.Example
 
             _collisionNode.CheckCollision<CircleTargetNode>((target) =>
             {
-                Console.WriteLine($"[{count}] MouseNode hits CircleTargetNode({target.Label})");
+                Console.WriteLine($"[{_count}] MouseNode hits CircleTargetNode({target.Label})");
             });
 
             _collisionNode.CheckCollision<RectangleTargetNode>((target) =>
             {
-                Console.WriteLine($"[{count}] MouseNode hits RectangleTargetNode({target.Label})");
+                Console.WriteLine($"[{_count}] MouseNode hits RectangleTargetNode({target.Label})");
             });
 
-            count++;
+            _count++;
         }
     }
 }
