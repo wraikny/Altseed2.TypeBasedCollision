@@ -4,6 +4,7 @@
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.1; net5.0; net6.0</TargetFrameworks>
 
+    <Authors>wraikny</Authors>
     <PackageId>Altseed2.TypeBasedCollision</PackageId>
     <Version>2.2.0</Version>
     <Description>Altseed2 Extension to check collision based on type</Description>
