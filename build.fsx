@@ -74,6 +74,7 @@ Target.create "Build" (fun _ ->
 
   !! "src/**/*.*proj"
   ++ "example/**/*.*proj"
+  ++ "tests/**/*.*proj"
   |> Seq.iter (DotNet.build (fun p ->
     { p with
         Configuration = configuration
