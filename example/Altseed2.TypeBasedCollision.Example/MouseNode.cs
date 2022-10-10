@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Altseed2.TypeBasedCollision.Example
 {

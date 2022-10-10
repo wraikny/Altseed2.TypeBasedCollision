@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 ---Altseed2.TypeBasedCollision---
 

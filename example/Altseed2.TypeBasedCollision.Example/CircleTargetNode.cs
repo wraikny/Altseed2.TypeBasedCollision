@@ -1,4 +1,4 @@
-﻿namespace Altseed2.TypeBasedCollision.Example
+namespace Altseed2.TypeBasedCollision.Example
 {
     internal class CircleTargetNode : CircleNode, ICollisionMarker
     {
