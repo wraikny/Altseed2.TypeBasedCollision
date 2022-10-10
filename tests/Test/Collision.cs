@@ -32,8 +32,8 @@ public class Collision
         Assert.AreEqual(count, expected, $"{typeof(T1)} to {typeof(T2)}");
     }
 
-    private CollisionNode<Key1>[]? collisions1;
-    private CollisionNode<Key2>[]? collisions2;
+    private CollisionNode<Key1>[] collisions1;
+    private CollisionNode<Key2>[] collisions2;
 
     [SetUp, Apartment(ApartmentState.STA)]
     public void Setup()
