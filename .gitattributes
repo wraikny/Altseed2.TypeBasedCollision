@@ -1,4 +1,5 @@
-*         text=auto
-*         text eol=crlf encoding=utf-8
-*.nuspec  text eol=crlf
-*.sh      text eol=sh
+*             text=auto encoding=utf-8
+*.cs          text eol=lf
+*.csproj      text eol=lf
+*.fsx         text eol=lf
+*.md          text eol=lf encoding=utf-8
