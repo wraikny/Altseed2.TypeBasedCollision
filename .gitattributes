@@ -1,0 +1,5 @@
+*             text=auto encoding=utf-8
+*.cs          text eol=lf
+*.csproj      text
+*.fsx         text eol=lf
+*.md          text eol=lf

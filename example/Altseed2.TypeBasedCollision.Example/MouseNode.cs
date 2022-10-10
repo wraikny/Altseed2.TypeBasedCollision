@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Altseed2.TypeBasedCollision.Example
 {
@@ -13,7 +13,6 @@ namespace Altseed2.TypeBasedCollision.Example
             {
                 Radius = 10.0f,
                 VertNum = 32,
-                Position = new Vector2F(100f, 100f),
             };
             AddChildNode(circleNode);
 
@@ -21,7 +20,6 @@ namespace Altseed2.TypeBasedCollision.Example
             var collider = new CircleCollider
             {
                 Radius = circleNode.Radius,
-                Position = circleNode.Position,
             };
 
             // CollisionNodeを作成する。

@@ -38,22 +38,11 @@ Target.initEnvironment ()
 let args = Target.getArguments()
 
 Target.create "Format" (fun _ ->
-  
-  !! "src/**/*.csproj"
-  ++ "tests/**/*.csproj"
-  ++ "example/**/*.csproj"
-  |> Seq.iter (fun proj ->
-    dotnet "format" $"{proj} -v diag"
-  )
+  dotnet "format" "-v diag"
 )
 
 Target.create "Format.Check" (fun _ ->
-  !! "src/**/*.csproj"
-  ++ "tests/**/*.csproj"
-  ++ "example/**/*.csproj"
-  |> Seq.iter (fun proj ->
-    dotnet "format" $"{proj} --verify-no-changes -v diag"
-  )
+  dotnet "format" "--verify-no-changes -v diag"
 )
 
 Target.create "Clean" (fun _ ->
@@ -74,10 +63,22 @@ Target.create "Build" (fun _ ->
 
   !! "src/**/*.*proj"
   ++ "example/**/*.*proj"
+  ++ "tests/**/*.*proj"
   |> Seq.iter (DotNet.build (fun p ->
     { p with
         Configuration = configuration
     }))
+)
+
+Target.create "Test" (fun _ ->
+  !! "tests/**/*.*proj"
+  |> Seq.iter(fun proj ->
+    DotNet.test (fun p ->
+      { p with
+          Logger = Some "console;verbosity=detailed"
+      }
+    ) proj
+  )
 )
 
 Target.create "None" ignore

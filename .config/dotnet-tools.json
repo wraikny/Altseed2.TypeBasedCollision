@@ -3,13 +3,13 @@
   "isRoot": true,
   "tools": {
     "fake-cli": {
-      "version": "5.20.4",
+      "version": "5.23.0",
       "commands": [
         "fake"
       ]
     },
     "dotnet-format": {
-      "version": "5.0.211103",
+      "version": "5.1.250801",
       "commands": [
         "dotnet-format"
       ]
